@@ -1,0 +1,78 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>My AngularJS App</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://openlayers.org/en/v4.6.5/css/ol.css" type="text/css">
+    <link rel="stylesheet/less" href="./app.less" type="text/css">
+    <script src="./lib/less.js"></script>
+    <script src="https://openlayers.org/en/v4.6.5/build/ol.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+
+<div class="map" id="map">
+    <div id="info"></div>
+</div>
+
+<div class="content">
+
+
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#point">点区域</a></li>
+        <li><a data-toggle="tab" href="#layer">图层区域</a></li>
+    </ul>
+
+
+    <div class="tab-content">
+
+        <div id="point" class="tab-pane fade in active">
+
+            <button ng-click="addPoint()" class="btn btn-success">add point</button>
+
+            <ul>
+                <li ng-repeat="x in points">
+                    {{x.desc}}
+                    <button ng-click="deletePoint(x)" class="btn btn-danger btn-sm">delete points</button>
+                </li>
+            </ul>
+
+        </div>
+
+        <div id="layer" class="tab-pane">
+
+            <button ng-click="addLayer()" class="btn btn-success">add layer</button>
+
+            <ul>
+                <li ng-repeat="x in layers">
+                    {{x.desc}}
+                    <button ng-click="deleteLayer(x)" class="btn btn-danger btn-sm">delete layers</button>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<script src="./app.js" type="module"></script>
+<script src="js/Map.js" type="module"></script>
+
+</body>
+</html>
