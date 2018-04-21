@@ -35,7 +35,7 @@ export default class Map {
     
     var view = new ol.View({
       center: [-10997148, 4569099],
-      zoom: 4,
+      zoom: 5,
       maxZoom: 20,
       minZoom: 3,
     });
