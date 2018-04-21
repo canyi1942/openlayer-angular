@@ -21,7 +21,7 @@ app.controller('myCtrl', function ($scope) {
   $scope.addPoint = () => {
     
     if (points.length >= 10) {
-      alert('本demo仅供参考，不要添加太多点哦')
+      alert("This demo is for reference only. Don't add too many points.")
       return false;
     }
     
@@ -50,7 +50,7 @@ app.controller('myCtrl', function ($scope) {
       layers.push(imageLayers.pop());
       mapObj.renderMap({layers, points})
     } else {
-      alert('没有图层了，请在数据库中添加图层');
+      alert('There is no layer, please add the layer in the database');
     }
     
   };

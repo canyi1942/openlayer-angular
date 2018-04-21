@@ -20,7 +20,7 @@ export default class Tool {
     
     const point = {
       coords: coords,
-      desc: '我的坐标是' + coords,
+      desc: 'my coordinate is ' + coords,
       style: {
         img: '../app/lib/point.png',
         type: 'img',
