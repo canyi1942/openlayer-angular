@@ -4,10 +4,35 @@ body {
   display: flex;
   justify-content: center;
   align-content: center;
+  flex-direction: column;
   width: 100%;
   height: 100%;
+  .form-wrapper {
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    form {
+      margin: 0px;
+    }
+    .form-group {
+      margin: 0 15px;
+      .control-label {
+        margin-right: 5px;
+      }
+      .form-control {
+        width: 179px;
+      }
+      button {
+        width: 100px;
+        height: 33px;
+        font-size: 14px;
+      }
+    }
+  }
   .map {
     width: 100%;
+    height: 100%;
     #info {
       position: absolute;
       height: 1px;

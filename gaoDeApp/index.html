@@ -1,0 +1,84 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>My AngularJS App</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet/less" href="./app.less" type="text/css">
+    <script src="./lib/less.js"></script>
+    <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.6&key=您申请的key值"></script>
+    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+<div class="form-wrapper">
+    <form class="form-inline" role="form">
+        <div class="form-group">
+            <label class="control-label">
+                站点类型
+            </label>
+            <select id="siteTypes" ng-model="siteType" class="form-control">
+                <option ng-repeat="x in siteTypes">
+                    {{x}}
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="control-label">
+                工程期数
+            </label>
+            <select id="engineeringPeriods" ng-model="engineeringPeriod" class="form-control">
+                <option ng-repeat="x in engineeringPeriods">
+                    {{x}}
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="control-label">
+                解决状态
+            </label>
+            <select id="approvalState" class="form-control" ng-model="approvalState">
+                <option ng-repeat="x in approvalStates">
+                    {{x}}
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="control-label">
+                问题种类
+            </label>
+            <select id="problemTypes" class="form-control" ng-model="problemType">
+                <option ng-repeat="x in problemTypes">
+                    {{x}}
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <button type="button" class="btn-success btn-sm" ng-click="queryInfo()">
+                查询
+            </button>
+        </div>
+    </form>
+</div>
+<div class="map" id="map">
+    <div id="info"></div>
+</div>
+
+
+<script src="./app.js" type="module"></script>
+<script src="js/Map.js" type="module"></script>
+
+</body>
+</html>

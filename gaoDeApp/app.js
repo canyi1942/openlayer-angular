@@ -1,17 +1,56 @@
 import Map from './js/Map.js';
 import Tool from './js/Tool.js';
 
-var mapObj = new Map({'container': 'map', tip: true});
+var mapObj = new Map({'container': 'map'});
 
 var app = angular.module('myApp', []);
 
+const siteTypes = [
+  `全选`,
+  `一类`,
+  `二类`,
+  `三类`,
+  `四类`
+];
+
+const engineeringPeriods = [
+  `全选`,
+  `1期`,
+  `2期`,
+  `3期`,
+  `重大问题`
+]
+
+const approvalStates = [
+  `全选`,
+  `已获批`,
+  `待批`,
+  `重大问题`
+]
+
+const problemTypes = [
+  `全选`,
+  `无问题`,
+  `部分问题，可协商解决`,
+  `重大问题`,
+  `自然保护区，需完善手续`
+]
+
 app.controller('myCtrl', function ($scope) {
   
-  const points = [];
-  const layers = [];
+  $scope.siteTypes = siteTypes;
+  $scope.engineeringPeriods = engineeringPeriods;
+  $scope.approvalStates = approvalStates;
+  $scope.problemTypes = problemTypes
   
-  $scope.points = points;
-  $scope.layers = layers;
+  $scope.siteType = '全选';
+  $scope.engineeringPeriod = '全选';
+  $scope.approvalState = '全选';
+  $scope.problemType = '全选'
+  
+  $scope.queryInfo = () => {
+    window.console.log($scope.siteType, $scope.engineeringPeriod, $scope.approvalState, $scope.problemType)
+  }
   
   $scope.addPoint = () => {
     
