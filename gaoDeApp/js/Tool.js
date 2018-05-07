@@ -8,6 +8,30 @@ export default class Tool {
   
   }
   
+  static childAutoScrollToView(parent, currentDOM) {
+    
+    // 父容器内容高度，包括不可见内容的高度
+    const scrollHeight = parent.scrollHeight;
+    
+    // 父容器可见区域高度
+    const clientHeight = parent.clientHeight;
+    
+    // 当前要操作的dom的高度
+    const currentDOMHeight = currentDOM.offsetHeight;
+    
+    // 操作dom离内容的高度距离
+    const currentDOMOffsetTop = currentDOM.offsetTop;
+    
+    const scrollTop = parent.scrollTop;
+    
+    if (scrollHeight > clientHeight) {
+      
+      parent.scrollTop = currentDOMOffsetTop - 0.5 * clientHeight;
+      
+    }
+    
+  }
+  
   static getItemsForPageNum(pageIndex = 0, items = [], pageSize = 10) {
     
     const begin = pageIndex * pageSize;
@@ -19,6 +43,7 @@ export default class Tool {
     }
     
     return items.slice(begin, end);
+    
   }
   
   static filterObjForAttr(originData = [], {attr, value}) {
@@ -42,7 +67,7 @@ export default class Tool {
     const arr = [];
     
     for (let i = 0; i < totalNum;) {
-      arr.push(++i);
+      arr.push(i++);
     }
     
     return arr;
@@ -77,7 +102,7 @@ export default class Tool {
         engineeringPeriod,
         approvalState,
         problemType,
-        renderImg
+        //renderImg
       };
       
     });

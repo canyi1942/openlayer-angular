@@ -13,8 +13,8 @@ export default class MapAPI {
   }
   
   renderMap({points = [], lines = [], fitView = true, callback}) {
-  
-    callback ? this.callback = callback : ''
+    
+    callback ? this.callback = callback : '';
     
     this.map.clearMap();
     
@@ -37,7 +37,7 @@ export default class MapAPI {
         });
         
         marker.on('click', (e) => {
-          this.callback && this.callback(e.target.getExtData());
+          this.callback && this.callback(e.target.getExtData(), 'map');
         });
         
         marker.setIcon(record.renderImg ? record.renderImg : DEFAULT_RENDER_POINT_IMG);
@@ -49,6 +49,23 @@ export default class MapAPI {
       }
       
     });
+    
+  }
+  
+  openInfoWindow(point) {
+    
+    if (!this.infoWindow) {
+      this.infoWindow = new AMap.InfoWindow({
+        offset: new AMap.Pixel(0, -30)
+      });
+    }
+    
+    this.infoWindow.setContent(point.name || point.id);
+    try {
+      point.lon && this.infoWindow.open(this.map, [Number.parseFloat(point.lon), Number.parseFloat(point.lat)]);
+    } catch (e) {
+      window.console.error('信息框错误', e)
+    }
     
   }
   

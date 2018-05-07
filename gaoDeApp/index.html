@@ -92,7 +92,7 @@
 
         <div class="form-group action">
             <div class="col-sm-10">
-                <button type="button" class="btn-info btn-sm" ng-click="queryInfo()">
+                <button type="button" class="btn-danger btn-sm" ng-click="queryInfo()">
                     查询
                 </button>
             </div>
@@ -105,16 +105,18 @@
 
 <div class="info-list">
     <ul class="pagination">
-        <li><a href="#">&laquo;</a></li>
+        <!--<li ng-click="queryInfo(-2)" ng-class="disabled"><a href="#">&laquo;</a></li>-->
+        <li class="disabled"><a href="#">&laquo;</a></li>
         <li ng-repeat="item in pagination" ng-click="queryInfo(item)">
             <a href="#">
-                {{item}}
+                {{item + 1}}
             </a>
         </li>
-        <li><a href="#">&raquo;</a></li>
+        <li class="disabled"><a href="#">&raquo;</a></li>
+        <!--<li ng-click="queryInfo(-1)"><a href="#">&raquo;</a></li>-->
     </ul>
     <ul class="list-group">
-        <li ng-class="item.className" ng-repeat="item in filterPOIData" ng-click="focusPoint(item)">
+        <li ng-class="item.className" id="" ng-repeat="item in filterPOIData" ng-click="focusPoint(item)">
             <h5>{{$index +1 }}：{{item.name}}</h5>
             <section class="info-item">
                 <span class="info-title">站点类型：</span>

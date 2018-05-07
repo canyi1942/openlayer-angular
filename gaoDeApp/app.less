@@ -6,6 +6,10 @@ body {
   align-content: center;
   width: 100%;
   height: 100%;
+  > div {
+    background-color: #F5F7FA;
+    box-shadow: 0 2px 4px 0 rgba(22, 60, 114, 0.2);
+  }
   .form-wrapper {
     border-right: 1px solid #eaeaea;
     width: 230px;
@@ -34,7 +38,7 @@ body {
     }
   }
   .map {
-    width: 100%;
+    width: calc(~"100% - 460px");
     height: 100%;
     #info {
       position: absolute;
@@ -54,12 +58,13 @@ body {
   }
   .info-list {
     border-left: 1px solid #eaeaea;
-    width: 367px;
+    width: 230px;
     .pagination {
       padding: 10px;
     }
     .list-group {
-      height: calc(~"100% - 130px");
+      height: calc(~"100% - 110px");
+      margin-top: -20px;
       overflow: auto;
       >li {
         border-bottom: 1px solid #eaeaea;
@@ -82,4 +87,7 @@ body {
   width: 18px;
   display: flex;
   justify-content: center;
+}
+.amap-info-close {
+  display: none;
 }

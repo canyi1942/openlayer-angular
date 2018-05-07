@@ -39,7 +39,7 @@ const problemTypes = [
 
 const pageSize = 20;
 
-app.controller('myCtrl', function ($scope) {
+app.controller('myCtrl', function ($scope, $timeout) {
   
   $scope.siteTypes = siteTypes;
   $scope.engineeringPeriods = engineeringPeriods;
@@ -55,6 +55,8 @@ app.controller('myCtrl', function ($scope) {
   $scope.filterPOIData = [];
   $scope.totalFilterPOIData = [...$scope.originPOIData];
   $scope.pagination = [];
+  
+  $scope.currentPage = 0;
   
   $scope.queryInfo = (pageNum = 0) => {
     
@@ -72,28 +74,52 @@ app.controller('myCtrl', function ($scope) {
       value: $scope.problemType,
     }].reduce(Tool.filterObjForAttr, $scope.originPOIData);
     
+    // todo 当pageNum 越界时，给出合适的值
+    if (pageNum == -1) {
+      pageNum = ++$scope.currentPage;
+    }
+    if (pageNum === -2) {
+      pageNum = --$scope.currentPage;
+    }
+    
     $scope.filterPOIData = Tool.getItemsForPageNum(pageNum, totalFilterPOIData, pageSize);
     
     $scope.pagination = Tool.getPanigation(totalFilterPOIData.length, pageSize);
+    
+    $scope.focusPoint();
     
     mapObj.renderMap({points: $scope.filterPOIData, fitView: true, callback: $scope.focusPoint});
     
   };
   
-  $scope.focusPoint = (item) => {
+  $scope.focusPoint = (item = {}, source = 'dom') => {
     
-    $scope.filterPOIData.some((record) => {
+    $timeout(() => {
       
-      if (record.id == item.id) {
-        record.className = 'poi-box selected';
-        record.renderImg = HIGHTLIGHT_RENDER_POINT_IMG;
-      } else {
-        record.className = 'poi-box';
-        record.renderImg = DEFAULT_RENDER_POINT_IMG;
+      $scope.filterPOIData.forEach((record) => {
+        
+        if (record.id == item.id) {
+          record.className = 'poi-box selected';
+          record.renderImg = HIGHTLIGHT_RENDER_POINT_IMG;
+        } else {
+          record.className = 'poi-box';
+          record.renderImg = DEFAULT_RENDER_POINT_IMG;
+        }
+        
+        return record;
+      });
+      
+      mapObj.renderMap({points: $scope.filterPOIData, fitView: false});
+      
+      mapObj.openInfoWindow(item);
+      
+      if (source === 'map') {
+        setTimeout(() => {
+          Tool.childAutoScrollToView(document.querySelector('.list-group'), document.querySelector('.poi-box.selected'));
+        }, 100);
       }
-    });
-    
-    mapObj.renderMap({points: $scope.filterPOIData, fitView: false});
+      
+    }, 10);
     
   };
   
