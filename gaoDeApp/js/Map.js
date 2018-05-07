@@ -56,7 +56,7 @@ export default class MapAPI {
     
     if (!this.infoWindow) {
       this.infoWindow = new AMap.InfoWindow({
-        offset: new AMap.Pixel(0, -30)
+        offset: new AMap.Pixel(20, -30)
       });
     }
     
