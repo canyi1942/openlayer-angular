@@ -9,6 +9,8 @@
     <link rel="stylesheet/less" href="./app.less" type="text/css">
     <script src="./lib/less.js"></script>
     <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.6&key=您申请的key值"></script>
+    <!--引入UI组件库（1.0版本） -->
+    <script src="http://webapi.amap.com/ui/1.0/main.js"></script>
     <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
 
     <!-- 新 Bootstrap 核心 CSS 文件 -->
@@ -24,51 +26,76 @@
 
 <body ng-app="myApp" ng-controller="myCtrl">
 <div class="form-wrapper">
-    <form class="form-inline" role="form">
+    <form class="horizontal" role="form">
         <div class="form-group">
-            <label class="control-label">
+            <label class="col-sm-12 control-label">
                 站点类型
             </label>
-            <select id="siteTypes" ng-model="siteType" class="form-control">
-                <option ng-repeat="x in siteTypes">
-                    {{x}}
-                </option>
-            </select>
         </div>
+
         <div class="form-group">
-            <label class="control-label">
+            <div class="col-sm-12">
+                <select id="siteTypes" ng-model="siteType" class="form-control">
+                    <option ng-repeat="x in siteTypes" value="{{x}}">
+                        {{x}}
+                    </option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-12 control-label">
                 工程期数
             </label>
-            <select id="engineeringPeriods" ng-model="engineeringPeriod" class="form-control">
-                <option ng-repeat="x in engineeringPeriods">
-                    {{x}}
-                </option>
-            </select>
+
         </div>
         <div class="form-group">
-            <label class="control-label">
+            <div class="col-sm-12">
+                <select id="engineeringPeriods" ng-model="engineeringPeriod" class="form-control">
+                    <option ng-repeat="x in engineeringPeriods" value="{{x}}">
+                        {{x}}
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-12 control-label">
                 解决状态
             </label>
-            <select id="approvalState" class="form-control" ng-model="approvalState">
-                <option ng-repeat="x in approvalStates">
-                    {{x}}
-                </option>
-            </select>
         </div>
         <div class="form-group">
-            <label class="control-label">
+            <div class="col-sm-12">
+                <select id="approvalState" class="form-control" ng-model="approvalState">
+                    <option ng-repeat="x in approvalStates" value="{{x}}">
+                        {{x}}
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-12 control-label">
                 问题种类
             </label>
-            <select id="problemTypes" class="form-control" ng-model="problemType">
-                <option ng-repeat="x in problemTypes">
-                    {{x}}
-                </option>
-            </select>
         </div>
         <div class="form-group">
-            <button type="button" class="btn-success btn-sm" ng-click="queryInfo()">
-                查询
-            </button>
+            <div class="col-sm-12">
+                <select id="problemTypes" class="form-control" ng-model="problemType">
+                    <option ng-repeat="x in problemTypes" value="{{x}}">
+                        {{x}}
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group action">
+            <div class="col-sm-10">
+                <button type="button" class="btn-info btn-sm" ng-click="queryInfo()">
+                    查询
+                </button>
+            </div>
         </div>
     </form>
 </div>
@@ -76,6 +103,56 @@
     <div id="info"></div>
 </div>
 
+<div class="info-list">
+    <ul class="pagination">
+        <li><a href="#">&laquo;</a></li>
+        <li ng-repeat="item in pagination" ng-click="queryInfo(item)">
+            <a href="#">
+                {{item}}
+            </a>
+        </li>
+        <li><a href="#">&raquo;</a></li>
+    </ul>
+    <ul class="list-group">
+        <li ng-class="item.className" ng-repeat="item in filterPOIData" ng-click="focusPoint(item)">
+            <h5>{{$index +1 }}：{{item.name}}</h5>
+            <section class="info-item">
+                <span class="info-title">站点类型：</span>
+                <span class="info-content">
+                    {{item.siteType}}
+                </span>
+            </section>
+
+            <section class="info-item">
+                <span class="info-title">属地：</span>
+                <span class="info-content">
+                    {{item.location}}
+                </span>
+            </section>
+
+            <section class="info-item">
+                <span class="info-title">工程期数：</span>
+                <span class="info-content">
+                    {{item.engineeringPeriod}}
+                </span>
+            </section>
+
+            <section class="info-item">
+                <span class="info-title">过规状态：</span>
+                <span class="info-content">
+                    {{item.approvalState}}
+                </span>
+            </section>
+
+            <section class="info-item">
+                <span class="info-title">问题种类：</span>
+                <span class="info-content">
+                    {{item.problemType}}
+                </span>
+            </section>
+        </li>
+    </ul>
+</div>
 
 <script src="./app.js" type="module"></script>
 <script src="js/Map.js" type="module"></script>

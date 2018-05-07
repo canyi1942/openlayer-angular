@@ -1,6 +1,7 @@
 import Map from './js/Map.js';
 import Tool from './js/Tool.js';
-
+import originPOIData from './js/dao.js';
+import {DEFAULT_RENDER_POINT_IMG, HIGHTLIGHT_RENDER_POINT_IMG} from './js/const.js';
 var mapObj = new Map({'container': 'map'});
 
 var app = angular.module('myApp', []);
@@ -19,14 +20,14 @@ const engineeringPeriods = [
   `2期`,
   `3期`,
   `重大问题`
-]
+];
 
 const approvalStates = [
   `全选`,
   `已获批`,
   `待批`,
   `重大问题`
-]
+];
 
 const problemTypes = [
   `全选`,
@@ -34,28 +35,74 @@ const problemTypes = [
   `部分问题，可协商解决`,
   `重大问题`,
   `自然保护区，需完善手续`
-]
+];
+
+const pageSize = 20;
 
 app.controller('myCtrl', function ($scope) {
   
   $scope.siteTypes = siteTypes;
   $scope.engineeringPeriods = engineeringPeriods;
   $scope.approvalStates = approvalStates;
-  $scope.problemTypes = problemTypes
+  $scope.problemTypes = problemTypes;
   
   $scope.siteType = '全选';
   $scope.engineeringPeriod = '全选';
   $scope.approvalState = '全选';
-  $scope.problemType = '全选'
+  $scope.problemType = '全选';
   
-  $scope.queryInfo = () => {
-    window.console.log($scope.siteType, $scope.engineeringPeriod, $scope.approvalState, $scope.problemType)
-  }
+  $scope.originPOIData = Tool.string2Obj(originPOIData) || [];
+  $scope.filterPOIData = [];
+  $scope.totalFilterPOIData = [...$scope.originPOIData];
+  $scope.pagination = [];
+  
+  $scope.queryInfo = (pageNum = 0) => {
+    
+    const totalFilterPOIData = [{
+      attr: `siteType`,
+      value: $scope.siteType,
+    }, {
+      attr: `engineeringPeriod`,
+      value: $scope.engineeringPeriod,
+    }, {
+      attr: `approvalState`,
+      value: $scope.approvalState,
+    }, {
+      attr: `problemType`,
+      value: $scope.problemType,
+    }].reduce(Tool.filterObjForAttr, $scope.originPOIData);
+    
+    $scope.filterPOIData = Tool.getItemsForPageNum(pageNum, totalFilterPOIData, pageSize);
+    
+    $scope.pagination = Tool.getPanigation(totalFilterPOIData.length, pageSize);
+    
+    mapObj.renderMap({points: $scope.filterPOIData, fitView: true, callback: $scope.focusPoint});
+    
+  };
+  
+  $scope.focusPoint = (item) => {
+    
+    $scope.filterPOIData.some((record) => {
+      
+      if (record.id == item.id) {
+        record.className = 'poi-box selected';
+        record.renderImg = HIGHTLIGHT_RENDER_POINT_IMG;
+      } else {
+        record.className = 'poi-box';
+        record.renderImg = DEFAULT_RENDER_POINT_IMG;
+      }
+    });
+    
+    mapObj.renderMap({points: $scope.filterPOIData, fitView: false});
+    
+  };
+  
+  $scope.queryInfo();
   
   $scope.addPoint = () => {
     
     if (points.length >= 10) {
-      alert("This demo is for reference only. Don't add too many points.")
+      alert('This demo is for reference only. Don\'t add too many points.');
       return false;
     }
     
@@ -78,39 +125,6 @@ app.controller('myCtrl', function ($scope) {
     
   };
   
-  $scope.addLayer = () => {
-    
-    if (imageLayers.length) {
-      layers.push(imageLayers.pop());
-      mapObj.renderMap({layers, points})
-    } else {
-      alert('There is no layer, please add the layer in the database');
-    }
-    
-  };
-  
-  $scope.deleteLayer = (layer) => {
-    
-    const filterLayer = layers.filter(record => record.name === layer.name);
-    
-    if (filterLayer.length) {
-      imageLayers.push(layer);
-      layers.splice(layers.indexOf(filterLayer[0]), 1);
-      mapObj.renderMap({layers, points})
-    }
-    
-  };
-  
 });
 
-const imageLayers = [
-  {
-    name: 'highWay',
-    url: 'https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StateCityHighway_USA/MapServer',
-    type: 'tile',
-    id: 1,
-    desc: 'USA highWay layer'
-  },
-
-];
 
